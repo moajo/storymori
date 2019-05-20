@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :pages
-  resources :stories
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get "/api/stories", to: "stories#get"
+  post "/api/stories", to: "stories#post"
+  get "/api/stories/:storyId/pages/:pageId", to: "pages#get"
+  post "/api/stories/:storyId/pages/:pageId/next", to: "pages#post"
 end

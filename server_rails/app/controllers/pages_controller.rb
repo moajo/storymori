@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   before_action :set_page, only: [:show, :update, :destroy]
 
   # GET /pages
-  def index
+  def get
     @pages = Page.all
 
     render json: @pages
@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   # POST /pages
-  def create
+  def post
     @page = Page.new(page_params)
 
     if @page.save
@@ -39,13 +39,14 @@ class PagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_page
-      @page = Page.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def page_params
-      params.fetch(:page, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_page
+    @page = Page.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def page_params
+    params.fetch(:page, {})
+  end
 end
