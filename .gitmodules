@@ -1,0 +1,6 @@
+[submodule "client"]
+	path = client
+	url = git@github.com:moajo/cohort.dena-001.storymori-app_vue.git
+[submodule "server_node"]
+	path = server_node
+	url = git@github.com:moajo/cohort.dena-001.storymori-service_node.git
