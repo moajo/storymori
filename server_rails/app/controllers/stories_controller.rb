@@ -37,7 +37,7 @@ class StoriesController < ApplicationController
     createdStroy = Story.create(title: title, summary: summary)
 
     storyId = createdStroy.id
-    hoge = Page.create(title: title, text: text, story_id: storyId)
+    hoge = Page.create(name: title, text: text, story_id: storyId)
     pageId = hoge.id
     render json: { "storyId": storyId, "pageId": pageId }
     # TODO: transaction
