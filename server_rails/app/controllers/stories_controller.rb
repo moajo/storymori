@@ -7,9 +7,13 @@ class StoriesController < ApplicationController
 
   # GET /stories
   def get
-    @stories = Story.all
-
-    render json: @stories
+    con = ActiveRecord::Base.connection
+    result = con.select_all("SELECT s.id, s.title, p.id AS parentId 
+    FROM stories s
+    INNER JOIN pages p ON s.id = p.story_id
+    WHERE p.parent_id is null;")
+    hash = result.to_hash
+    render json: hash
   end
 
   # POST /stories
