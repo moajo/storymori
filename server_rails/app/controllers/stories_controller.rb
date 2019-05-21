@@ -1,5 +1,9 @@
+def nilOrEmpty(str)
+  str == nil || str == ""
+end
+
 class StoriesController < ApplicationController
-  before_action :set_story, only: [:show, :update, :destroy]
+  # before_action :set_story, only: [:show, :update, :destroy]
 
   # GET /stories
   def get
@@ -8,45 +12,48 @@ class StoriesController < ApplicationController
     render json: @stories
   end
 
-  # # GET /stories/1
-  # def show
-  #   render json: @story
-  # end
-
   # POST /stories
   def post
-    @story = Story.new(story_params)
+    json_request = JSON.parse(request.body.read)
+    text = json_request["text"]
+    title = json_request["title"]
 
-    if @story.save
-      render json: @story, status: :created, location: @story
-    else
-      render json: @story.errors, status: :unprocessable_entity
+    if nilOrEmpty(text)
+      puts "text is nil"
+      head 400
+      return
     end
+    if nilOrEmpty(title)
+      puts "title is nil"
+      head 400
+      return
+    end
+
+    summary = text[0...10]
+    createdStroy = Story.create(title: title, summary: summary)
+
+    storyId = createdStroy.id
+    hoge = Page.create(title: title, text: text, story_id: storyId)
+    pageId = hoge.id
+    render json: { "storyId": storyId, "pageId": pageId }
+    # TODO: transaction
+    return
+    # if @story.save
+    #   render json: @story, status: :created, location: @story
+    # else
+    #   render json: @story.errors, status: :unprocessable_entity
+    # end
   end
 
-  # # PATCH/PUT /stories/1
-  # def update
-  #   if @story.update(story_params)
-  #     render json: @story
-  #   else
-  #     render json: @story.errors, status: :unprocessable_entity
-  #   end
+  # private
+
+  # # Use callbacks to share common setup or constraints between actions.
+  # def set_story
+  #   @story = Story.find(params[:id])
   # end
 
-  # # DELETE /stories/1
-  # def destroy
-  #   @story.destroy
+  # # Only allow a trusted parameter "white list" through.
+  # def story_params
+  #   params.fetch(:story, {})
   # end
-
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_story
-    @story = Story.find(params[:id])
-  end
-
-  # Only allow a trusted parameter "white list" through.
-  def story_params
-    params.fetch(:story, {})
-  end
 end
