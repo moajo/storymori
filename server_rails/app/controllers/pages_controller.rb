@@ -11,19 +11,40 @@ def to_s_or_null(str)
 end
 
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :update, :destroy]
+  # before_action :set_page, only: [:show, :update, :destroy]
 
   # GET /pages
   def get
-    @pages = Page.all
+    storyIdStr = params["storyId"]
+    pageIdStr = params["pageId"]
 
-    render json: @pages
+    storyId = to_s_or_null(storyIdStr)
+    if storyId == nil
+      puts "storyId is nil"
+      head 400
+      return
+    end
+
+    pageId = to_s_or_null(pageIdStr)
+    if pageId == nil
+      puts "pageId is nil"
+      head 400
+      return
+    end
+    page = Page.find_by(id: pageId, story_id: storyId)
+    if page == nil
+      puts "123"
+      head 404
+      return
+    end
+
+    children = Page.where(parent_id: page.id)
+
+    att = page.attributes
+    ret = page.as_json(:except => [:created_at, :updated_at])
+    ret["children"] = children.map { |a| a.as_json(:except => [:created_at, :updated_at]) }
+    render json: ret
   end
-
-  # # GET /pages/1
-  # def show
-  #   render json: @page
-  # end
 
   # POST /pages
   def post
@@ -70,29 +91,29 @@ class PagesController < ApplicationController
     render json: { "id": createdPage.id }
   end
 
-  # PATCH/PUT /pages/1
-  def update
-    if @page.update(page_params)
-      render json: @page
-    else
-      render json: @page.errors, status: :unprocessable_entity
-    end
-  end
+  # # PATCH/PUT /pages/1
+  # def update
+  #   if @page.update(page_params)
+  #     render json: @page
+  #   else
+  #     render json: @page.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  # DELETE /pages/1
-  def destroy
-    @page.destroy
-  end
+  # # DELETE /pages/1
+  # def destroy
+  #   @page.destroy
+  # end
 
-  private
+  # private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_page
-    @page = Page.find(params[:id])
-  end
+  # # Use callbacks to share common setup or constraints between actions.
+  # def set_page
+  #   @page = Page.find(params[:id])
+  # end
 
-  # Only allow a trusted parameter "white list" through.
-  def page_params
-    params.fetch(:page, {})
-  end
+  # # Only allow a trusted parameter "white list" through.
+  # def page_params
+  #   params.fetch(:page, {})
+  # end
 end
