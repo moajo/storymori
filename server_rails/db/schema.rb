@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_21_024128) do
+ActiveRecord::Schema.define(version: 2019_05_21_025437) do
 
   create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2019_05_21_024128) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "story_id"
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_pages_on_parent_id"
     t.index ["story_id"], name: "index_pages_on_story_id"
   end
 
@@ -28,5 +30,6 @@ ActiveRecord::Schema.define(version: 2019_05_21_024128) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "pages", "pages", column: "parent_id"
   add_foreign_key "pages", "stories"
 end
