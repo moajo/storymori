@@ -17,7 +17,7 @@ class StoriesController < ApplicationController
   end
 
   # POST /stories
-  def post
+  def create
     json_request = JSON.parse(request.body.read)
     text = json_request["text"]
     title = json_request["title"]

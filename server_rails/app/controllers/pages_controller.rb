@@ -47,7 +47,7 @@ class PagesController < ApplicationController
   end
 
   # POST /pages
-  def post
+  def create
     json_request = JSON.parse(request.body.read)
     name = json_request["name"]
     text = json_request["text"]
