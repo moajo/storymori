@@ -6,7 +6,7 @@ class StoriesController < ApplicationController
   # before_action :set_story, only: [:show, :update, :destroy]
 
   # GET /stories
-  def get
+  def index
     con = ActiveRecord::Base.connection
     result = con.select_all("SELECT s.id, s.title, p.id AS parentId 
     FROM stories s

@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   # before_action :set_page, only: [:show, :update, :destroy]
 
   # GET /pages
-  def get
+  def index
     storyIdStr = params["storyId"]
     pageIdStr = params["pageId"]
 
