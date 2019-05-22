@@ -1,10 +1,3 @@
-def to_s_or_null(str)
-  if str.nil?
-    return nil
-  end
-  i = str.to_i
-  str == i.to_s ? i : nil
-end
 
 class PagesController < ApplicationController
   # before_action :set_page, only: [:show, :update, :destroy]
@@ -87,29 +80,13 @@ class PagesController < ApplicationController
     render json: { "id": createdPage.id }
   end
 
-  # # PATCH/PUT /pages/1
-  # def update
-  #   if @page.update(page_params)
-  #     render json: @page
-  #   else
-  #     render json: @page.errors, status: :unprocessable_entity
-  #   end
-  # end
+  private
 
-  # # DELETE /pages/1
-  # def destroy
-  #   @page.destroy
-  # end
-
-  # private
-
-  # # Use callbacks to share common setup or constraints between actions.
-  # def set_page
-  #   @page = Page.find(params[:id])
-  # end
-
-  # # Only allow a trusted parameter "white list" through.
-  # def page_params
-  #   params.fetch(:page, {})
-  # end
+  def to_s_or_null(str)
+    if str.nil?
+      return nil
+    end
+    i = str.to_i
+    str == i.to_s ? i : nil
+  end
 end

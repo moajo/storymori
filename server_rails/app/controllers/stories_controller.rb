@@ -1,7 +1,3 @@
-def nilOrEmpty(str)
-  str.nil? || str == ""
-end
-
 class StoriesController < ApplicationController
   # before_action :set_story, only: [:show, :update, :destroy]
 
@@ -22,12 +18,12 @@ class StoriesController < ApplicationController
     text = json_request["text"]
     title = json_request["title"]
 
-    if nilOrEmpty(text)
+    if text.blank?
       puts "text is nil"
       head 400
       return
     end
-    if nilOrEmpty(title)
+    if title.blank?
       puts "title is nil"
       head 400
       return
