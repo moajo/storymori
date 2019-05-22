@@ -1,7 +1,3 @@
-def nilOrEmpty(str)
-  str.nil? || str == ""
-end
-
 def to_s_or_null(str)
   if str.nil?
     return nil
@@ -54,13 +50,13 @@ class PagesController < ApplicationController
     storyIdStr = params["storyId"]
     parentIdStr = params["parentId"]
 
-    if nilOrEmpty(name)
+    if name.blank?
       puts "name is nil"
       head 400
       return
     end
 
-    if nilOrEmpty(text)
+    if text.blank?
       puts "text is nil"
       head 400
       return
