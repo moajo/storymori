@@ -1,8 +1,5 @@
 
 class PagesController < ApplicationController
-  # before_action :set_page, only: [:show, :update, :destroy]
-
-  # GET /pages
   def index
     storyIdStr = params["storyId"]
     pageIdStr = params["pageId"]
@@ -35,11 +32,9 @@ class PagesController < ApplicationController
     render json: ret
   end
 
-  # POST /pages
   def create
-    json_request = JSON.parse(request.body.read)
-    name = json_request["name"]
-    text = json_request["text"]
+    name = params["name"]
+    text = params["text"]
     storyIdStr = params["storyId"]
     parentIdStr = params["parentId"]
 

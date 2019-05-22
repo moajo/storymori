@@ -1,7 +1,4 @@
 class StoriesController < ApplicationController
-  # before_action :set_story, only: [:show, :update, :destroy]
-
-  # GET /stories
   def index
     con = ActiveRecord::Base.connection
     result = con.select_all("SELECT s.id, s.title, p.id AS parentId 
@@ -12,11 +9,9 @@ class StoriesController < ApplicationController
     render json: hash
   end
 
-  # POST /stories
   def create
-    json_request = JSON.parse(request.body.read)
-    text = json_request["text"]
-    title = json_request["title"]
+    text = params["text"]
+    title = params["title"]
 
     if text.blank?
       puts "text is nil"
@@ -38,22 +33,5 @@ class StoriesController < ApplicationController
     render json: { "storyId": storyId, "pageId": pageId }
     # TODO: transaction
     return
-    # if @story.save
-    #   render json: @story, status: :created, location: @story
-    # else
-    #   render json: @story.errors, status: :unprocessable_entity
-    # end
   end
-
-  # private
-
-  # # Use callbacks to share common setup or constraints between actions.
-  # def set_story
-  #   @story = Story.find(params[:id])
-  # end
-
-  # # Only allow a trusted parameter "white list" through.
-  # def story_params
-  #   params.fetch(:story, {})
-  # end
 end
