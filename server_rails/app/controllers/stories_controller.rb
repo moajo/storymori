@@ -1,5 +1,5 @@
 def nilOrEmpty(str)
-  str == nil || str == ""
+  str.nil? || str == ""
 end
 
 class StoriesController < ApplicationController

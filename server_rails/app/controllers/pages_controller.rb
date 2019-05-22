@@ -1,9 +1,9 @@
 def nilOrEmpty(str)
-  str == nil || str == ""
+  str.nil? || str == ""
 end
 
 def to_s_or_null(str)
-  if str == nil
+  if str.nil?
     return nil
   end
   i = str.to_i
@@ -19,20 +19,20 @@ class PagesController < ApplicationController
     pageIdStr = params["pageId"]
 
     storyId = to_s_or_null(storyIdStr)
-    if storyId == nil
+    if storyId.nil?
       puts "storyId is nil"
       head 400
       return
     end
 
     pageId = to_s_or_null(pageIdStr)
-    if pageId == nil
+    if pageId.nil?
       puts "pageId is nil"
       head 400
       return
     end
     page = Page.find_by(id: pageId, story_id: storyId)
-    if page == nil
+    if page.nil?
       puts "123"
       head 404
       return
@@ -67,21 +67,21 @@ class PagesController < ApplicationController
     end
 
     storyId = to_s_or_null(storyIdStr)
-    if storyId == nil
+    if storyId.nil?
       puts "storyId is nil"
       head 400
       return
     end
 
     parentId = to_s_or_null(parentIdStr)
-    if parentId == nil
+    if parentId.nil?
       puts "parentId is nil"
       head 400
       return
     end
 
     parent = Page.find_by(id: parentId, story_id: storyId)
-    if parent == nil
+    if parent.nil?
       puts "parent is not exists"
       head 404
       return
